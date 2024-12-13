@@ -15,9 +15,12 @@ public class Memo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long mno;
+    private Long mId;
+
+    @Column(length = 100, nullable = false)
+    private String mTitle;
 
     @Column(length = 200, nullable = false)
-    private String memoText;
+    private String mContent;
 
 }
