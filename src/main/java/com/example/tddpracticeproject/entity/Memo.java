@@ -7,6 +7,7 @@ import org.w3c.dom.Text;
 @Entity
 @Table(name = "memo")
 @Getter
+@Setter
 @ToString
 @Builder
 @AllArgsConstructor

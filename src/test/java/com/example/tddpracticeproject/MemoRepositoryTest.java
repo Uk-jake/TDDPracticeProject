@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -60,6 +62,59 @@ public class MemoRepositoryTest {
         assertThat(result.getMContent()).isEqualTo(content);
     }
 
+    // 4. Memo 조회 테스트
+    @Test
+    @DisplayName("Memo 조회 테스트")
+    public void findAllMemo(){
+        // given
+        IntStream.rangeClosed(1, 10).forEach( i -> {
+            Memo memo = Memo.builder().mTitle("title").mContent("Sample..").build();
+            memoRepository.save(memo);
+        });
+
+        // when
+        List<Memo> memoList = memoRepository.findAll();
+
+        // then
+        assertThat(memoList.size()).isEqualTo(10);
+    }
+
+    // 5. Memo 수정 테스트
+    @Test
+    @DisplayName("Memo 수정 테스트")
+    public void testUpdateMemo() {
+        // given
+        Memo memo = Memo.builder().mTitle("original title").mContent("original content").build();
+        Memo savedMemo = memoRepository.save(memo);
+
+        // when
+        savedMemo.setMTitle("updated title");
+        savedMemo.setMContent("updated content");
+        Memo updatedMemo = memoRepository.save(savedMemo);
+
+        // then
+        assertThat(updatedMemo.getMTitle()).isEqualTo("updated title");
+        assertThat(updatedMemo.getMContent()).isEqualTo("updated content");
+    }
+
+    // 6, Memo 삭제 테스트
+    @Test
+    @DisplayName("Memo 삭제 테스트")
+    public void deleteMemo() {
+        // given
+        Memo memo = Memo.builder().mTitle("title").mContent("content").build();
+        Memo savedMemo = memoRepository.save(memo); // 저장된 엔티티를 반환받음
+
+        Long memoId = savedMemo.getMId(); // 저장된 Memo의 ID 가져오기
+        assertThat(memoRepository.findById(memoId)).isPresent(); // 삭제 전 존재 여부 확인
+
+        // when
+        memoRepository.deleteById(memoId);
+
+        // then
+        Optional<Memo> result = memoRepository.findById(memoId);
+        assertThat(result).isEmpty(); // 삭제 후 존재하지 않는지 확인
+    }
 
 
 }
