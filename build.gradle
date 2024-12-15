@@ -32,6 +32,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // gson - controller Test
+    testImplementation 'com.google.code.gson:gson:2.8.9'
+
+
 }
 
 tasks.named('test') {

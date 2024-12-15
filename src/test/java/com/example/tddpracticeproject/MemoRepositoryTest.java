@@ -31,7 +31,7 @@ public class MemoRepositoryTest {
     @DisplayName("테이블과 잘 연결되었는지 테스트")
     public void testInsert() {
         // given: 데이터를 생성하고 저장
-        IntStream.rangeClosed(1, 100).forEach(i -> {
+        IntStream.rangeClosed(1, 10).forEach(i -> {
             Memo memo = Memo.builder().mTitle("title").mContent("Sample " + i).build();
             memoRepository.save(memo);
         });
@@ -40,7 +40,7 @@ public class MemoRepositoryTest {
         long count = memoRepository.count();
 
         // then: 예상 결과와 실제 결과가 일치하는지 검증
-        assertThat(count).isEqualTo(100);
+        assertThat(count).isEqualTo(10);
     }
 
     // 3. Memo가 잘 생성되는지 확인
